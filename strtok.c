@@ -14,23 +14,30 @@
 char **split(char *string, const char *delim)
 {
 	int i, count = count_tok(string, delim);
-	char *token = strtok(string, delim);
+	char *token = NULL;
+	char *str_cpy = malloc(sizeof(char) * (_strlen(string) + 1));
 	char **array = malloc(sizeof(char *) * count);
 
+	_strcpy(str_cpy, string);
+	token = strtok(str_cpy, delim);
 	if (array == NULL)
 		return (NULL);
 
 	for (i = 0; token != NULL; i++)
 	{
-		array[i] = malloc(sizeof(char) * _strlen(token));
+		array[i] = malloc(sizeof(char) * (_strlen(token) + 1));
 
 		if (array[i] == NULL)
+		{
+			free(str_cpy);
 			return (NULL);
+		}
 
 		array[i] = token;
+
 		token = strtok(NULL, delim);
 	}
-
+	array[i] = NULL;
 	return (array);
 }
 
@@ -48,8 +55,10 @@ char **split(char *string, const char *delim)
  */
 int count_tok(char *string, const char *delim)
 {
-	char *str_cpy = NULL, *token;
+	char *str_cpy, *token = NULL;
 	int i;
+
+	str_cpy = malloc(sizeof(char) * (_strlen(string) + 1));
 
 	_strcpy(str_cpy, string);
 	token = strtok(str_cpy, delim);
@@ -58,9 +67,8 @@ int count_tok(char *string, const char *delim)
 	 * Handling if the given string was NULL.
 	 */
 	if (token == NULL)
-	{
 		return (-1);
-	}
+
 	else
 	{
 		/**
@@ -69,6 +77,7 @@ int count_tok(char *string, const char *delim)
 		for (i = 1; token != NULL; i++)
 			token = strtok(NULL, delim);
 
-		return (i);
 	}
+	free(str_cpy);
+	return (i);
 }

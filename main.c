@@ -18,30 +18,6 @@ int main(__attribute__((unused)) int argc, char **argv)
 
 	if (_strcmp(shell_lvl, "0") == 0)
 	{
-		/**
-		if (getline(&line, &n, stdin) != -1)
-		{
-			token = strtok(line, "\"\n");
-
-			while (token != NULL)
-			{
-				id = fork();
-				if (id == 0)
-				{
-					if (execve(token, argv, environ) == -1)
-					{
-						perror(argv[0]);
-						return (-1);
-					}
-				}
-				else if (id > 0)
-				{
-					wait(&status);
-					token = strtok(NULL, "\"\n");
-				}
-			}
-		}
-		*/
 		non_interactive_shell(argv);
 	}
 	else

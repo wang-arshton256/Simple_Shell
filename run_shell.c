@@ -6,15 +6,13 @@
  *
  * @argv: Pointer to string array, that represents arguments given to the
  * program.
- * @environ: Pointer to string array, that represents the environmental variables
- * in the environment that the program executes within.
  *
  * Return: Nothing.
  */
 
 void interactive_shell(char **argv)
 {
-	char *token, *line = NULL, *prompt = "#cisfun$ ";
+	char **token = NULL, *line = NULL, *prompt = "#cisfun$ ";
 	size_t n;
 	int id, status;
 	ssize_t bytes_read;
@@ -23,19 +21,19 @@ void interactive_shell(char **argv)
 
 	while ((bytes_read = getline(&line, &n, stdin)) != -1)
 	{
-		token = strtok(line, "\"\n");
+		token = split(line, " \"\n");
 
 		id = fork();
 
 		if (id == 0)
 		{
-			if (token == NULL)
-			{
+			if (*token == NULL)
 				exit(-1);
-			}
 
-			else if (execve(token, argv, environ) == -1)
+			else if (execve(token[0], token, environ) == -1)
 			{
+				free(*token);
+				free(token);
 				free(line);
 				perror(argv[0]);
 				exit(-1);
@@ -52,14 +50,15 @@ void interactive_shell(char **argv)
 		}
 	}
 	if (bytes_read == -1)
+	{
 		write(1, "\n", 1);
-
+	}
 	free(line);
 }
 
 
 /**
- * non_interactive_sehll - Gets a setr of commands from the user and executes
+ * non_interactive_shell - Gets a set of commands from the user and executes
  * them when the sell level is at 0.
  *
  * @argv: Pointer to an array of pointers to strings, which represents the
@@ -69,29 +68,34 @@ void interactive_shell(char **argv)
  */
 void non_interactive_shell(char **argv)
 {
-	char *token, *line = NULL;
+	char **token, *line = NULL;
 	int id, status;
 	size_t n;
 	ssize_t bytes_read;
 
 	while ((bytes_read = getline(&line, &n, stdin)) != -1)
 	{
-		token = strtok(line, "\"\n");
+		token = split(line, " \"\n");
 
 		id = fork();
 		if (id == 0)
 		{
-			if (execve(token, argv, environ) == -1)
+			if (*token == NULL)
+				exit(-1);
+
+			else if (execve(token[0], token, environ) == -1)
 			{
 				free(line);
 				perror(argv[0]);
-				exit (-1);
+				exit(-1);
 			}
 		}
 		else if (id > 0)
 		{
 			wait(&status);
-			token = strtok(NULL, "\"\n");
+			/**
+			 * token = strtok(NULL, "\"\n");
+			 */
 		}
 	}
 	free(line);
