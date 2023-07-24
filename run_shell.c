@@ -43,16 +43,12 @@ void interactive_shell(char **argv)
 		else if (id > 0)
 		{
 			wait(&status);
-			/**
-			 * Command appears again after execution.
-			 */
 			write(1, prompt, _strlen(prompt));
 		}
 	}
 	if (bytes_read == -1)
-	{
 		write(1, "\n", 1);
-	}
+
 	free(line);
 }
 
