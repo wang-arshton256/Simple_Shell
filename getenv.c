@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 /**
  * _getenv - Gets the given environment variable from the set of
  * environment variables.
@@ -9,7 +8,7 @@
  * name of the enviroment variable to be searched for.
  *
  * Return: Address of the envrionment variable.
- *	   NULL if environment variable not found.
+ *	   NULL if environment variable not found..
  */
 
 char *_getenv(const char *name)
