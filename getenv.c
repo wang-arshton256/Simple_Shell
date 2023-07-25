@@ -5,19 +5,26 @@
  * _getenv - Gets the given environment variable from the set of
  * environment variables.
  *
- * @name: Pointer to a constant character value, which represents the
+ * @name: Pointer to a character value, which represents the
  * name of the enviroment variable to be searched for.
  *
- * Return: Address of the envrionment variable.
+ * Return: Address of the value corresponding to the key envrionment variable.
  *	   NULL if environment variable not found.
  */
 
-char *_getenv(const char *name)
+char *_getenv(char *name)
 {
-	int i;
-	char *token, *env_var;
+	int i, var_len = _strlen(name) + 1;
+	char *token, *env_var = malloc(sizeof(char) * var_len);
 
-	env_var = (char *)name;
+	if (name == NULL)
+		return (NULL);
+
+	/**
+	 * Typecasting the environment variable.
+	 * TODO: allocate memory to env_var instead of typecasting.
+	 */
+	_strcpy(env_var, name);
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
@@ -26,7 +33,7 @@ char *_getenv(const char *name)
 		if (_strcmp(token, env_var) == 0)
 		{
 			token = strtok(NULL, "=");
-			return (token);
+			return (&environ[i][var_len]);
 		}
 	}
 	return (NULL);

@@ -14,7 +14,6 @@ void interactive_shell(char **argv)
 {
 	char **token = NULL, *line = NULL, *prompt = "#cisfun$ ";
 	size_t n;
-	int id, status;
 	ssize_t bytes_read;
 
 	write(1, prompt, _strlen(prompt));
@@ -22,28 +21,23 @@ void interactive_shell(char **argv)
 	while ((bytes_read = getline(&line, &n, stdin)) != -1)
 	{
 		token = split(line, " \"\n");
+		/**
+		 * TODO: check path_finder function before forking.
+		 */
 
-		id = fork();
-
-		if (id == 0)
-		{
-			if (*token == NULL)
-				exit(-1);
-
-			else if (execve(token[0], token, environ) == -1)
-			{
-				free(*token);
-				free(token);
-				free(line);
-				perror(argv[0]);
-				exit(-1);
-			}
-		}
-
-		else if (id > 0)
-		{
-			wait(&status);
+		if (*token == NULL)
 			write(1, prompt, _strlen(prompt));
+		else
+		{
+			if (cmd_check(token[0]) == 0)
+			{
+				execute_cmd(argv, token, line, prompt);
+			}
+			else
+			{
+				perror(argv[0]);
+				write(1, prompt, _strlen(prompt));
+			}
 		}
 	}
 	if (bytes_read == -1)
@@ -79,6 +73,10 @@ void non_interactive_shell(char **argv)
 			if (*token == NULL)
 				exit(-1);
 
+			else if (token[0][0] != '/')
+			{
+				path_handler(token);
+			}
 			else if (execve(token[0], token, environ) == -1)
 			{
 				free(line);

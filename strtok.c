@@ -67,7 +67,7 @@ int count_tok(char *string, const char *delim)
 	 * Handling if the given string was NULL.
 	 */
 	if (token == NULL)
-		return (-1);
+		return (0);
 
 	else
 	{
@@ -76,7 +76,6 @@ int count_tok(char *string, const char *delim)
 		 */
 		for (i = 1; token != NULL; i++)
 			token = strtok(NULL, delim);
-
 	}
 	free(str_cpy);
 	return (i);
