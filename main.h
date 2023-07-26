@@ -23,5 +23,7 @@ char *_strcat(char *dest, char *src);
 int path_finder(char *command);
 void execute_cmd(char **argv, char **token, char *line, char *prompt);
 int  cmd_check(char *command);
+void exit_handler(int sig_num);
+void exit_shell(void);
 
 #endif

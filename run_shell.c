@@ -21,12 +21,13 @@ void interactive_shell(char **argv)
 	while ((bytes_read = getline(&line, &n, stdin)) != -1)
 	{
 		token = split(line, " \"\n");
-		/**
-		 * TODO: check path_finder function before forking.
-		 */
 
 		if (*token == NULL)
 			write(1, prompt, _strlen(prompt));
+
+		else if (strcmp(token[0], "exit") == 0)
+			exit_shell();
+
 		else
 		{
 			if (cmd_check(token[0]) == 0)

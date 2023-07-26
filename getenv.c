@@ -20,10 +20,6 @@ char *_getenv(char *name)
 	if (name == NULL)
 		return (NULL);
 
-	/**
-	 * Typecasting the environment variable.
-	 * TODO: allocate memory to env_var instead of typecasting.
-	 */
 	_strcpy(env_var, name);
 
 	for (i = 0; environ[i] != NULL; i++)
