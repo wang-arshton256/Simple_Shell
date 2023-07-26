@@ -25,5 +25,6 @@ void execute_cmd(char **argv, char **token, char *line, char *prompt);
 int  cmd_check(char *command);
 void exit_handler(int sig_num);
 void exit_shell(void);
+void env_shell(char *prompt);
 
 #endif

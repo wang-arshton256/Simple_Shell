@@ -28,9 +28,13 @@ void interactive_shell(char **argv)
 		else if (strcmp(token[0], "exit") == 0)
 			exit_shell();
 
+
 		else
 		{
-			if (cmd_check(token[0]) == 0)
+			if (strcmp(token[0], "env") == 0)
+				env_shell(prompt);
+
+			else if (cmd_check(token[0]) == 0)
 			{
 				execute_cmd(argv, token, line, prompt);
 			}

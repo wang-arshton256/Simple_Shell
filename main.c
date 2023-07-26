@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * main - Tests the shell.
+ * main - Runs the shell.
  *
  * @argc: Integer value, represents the number of arguments given to the
  * program.
