@@ -28,7 +28,6 @@ void interactive_shell(char **argv)
 		else if (strcmp(token[0], "exit") == 0)
 			exit_shell();
 
-
 		else
 		{
 			if (strcmp(token[0], "env") == 0)
@@ -72,29 +71,31 @@ void non_interactive_shell(char **argv)
 	{
 		token = split(line, " \"\n");
 
-		id = fork();
-		if (id == 0)
+		if (*token == NULL)
+			exit(-1);
+		else
 		{
-			if (*token == NULL)
-				exit(-1);
+			id = fork();
+			if (id == 0)
+			{
 
-			else if (token[0][0] != '/')
-			{
-				path_handler(token);
+				if (cmd_check(token[0]) == 0)
+				{
+					execute_cmd(argv, token, line, NULL);
+				}
+				else
+				{
+					perror(argv[0]);
+					exit(-1);
+				}
 			}
-			else if (execve(token[0], token, environ) == -1)
+			else if (id > 0)
 			{
-				free(line);
-				perror(argv[0]);
-				exit(-1);
+				wait(&status);
+				/**
+				 * token = strtok(NULL, "\"\n");
+				 */
 			}
-		}
-		else if (id > 0)
-		{
-			wait(&status);
-			/**
-			 * token = strtok(NULL, "\"\n");
-			 */
 		}
 	}
 	free(line);
