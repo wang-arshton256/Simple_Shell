@@ -76,10 +76,10 @@ void non_interactive_shell(char **argv)
 			}
 		}
 	}
-	if (token == NULL)
+	if (token != NULL)
 	{
-		free(token);
 		free(*token);
+		free(token);
 	}
 	free(line);
 }
