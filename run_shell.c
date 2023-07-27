@@ -47,6 +47,7 @@ void interactive_shell(char **argv)
  */
 void non_interactive_shell(char **argv)
 {
+	int i = 0;
 	char **token, *line = NULL;
 	size_t n;
 	ssize_t bytes_read;
@@ -75,11 +76,12 @@ void non_interactive_shell(char **argv)
 				exit(127);
 			}
 		}
-	}
-	if (token != NULL)
-	{
-		free(*token);
+		for (i = 0; token[i] != NULL; i++)
+			free(token[i]);
+
 		free(token);
+		token = NULL;
 	}
 	free(line);
+	line = NULL;
 }
