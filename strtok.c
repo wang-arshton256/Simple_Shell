@@ -18,21 +18,18 @@ char **split(char *string, const char *delim)
 	char *str_cpy = malloc(sizeof(char) * (_strlen(string) + 1));
 	char **array = malloc(sizeof(char *) * count);
 
+	if (str_cpy == NULL || array == NULL)
+	{
+		free(str_cpy);
+		free(array);
+		return (NULL);
+	}
+
 	_strcpy(str_cpy, string);
 	token = strtok(str_cpy, delim);
-	if (array == NULL)
-		return (NULL);
 
 	for (i = 0; token != NULL; i++)
 	{
-		array[i] = malloc(sizeof(char) * (_strlen(token) + 1));
-
-		if (array[i] == NULL)
-		{
-			free(str_cpy);
-			return (NULL);
-		}
-
 		array[i] = token;
 
 		token = strtok(NULL, delim);
@@ -77,6 +74,7 @@ int count_tok(char *string, const char *delim)
 		for (i = 1; token != NULL; i++)
 			token = strtok(NULL, delim);
 	}
+	free(token);
 	free(str_cpy);
 	return (i);
 }

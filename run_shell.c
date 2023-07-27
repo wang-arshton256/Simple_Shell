@@ -25,12 +25,12 @@ void interactive_shell(char **argv)
 		if (*token == NULL)
 			write(1, prompt, _strlen(prompt));
 
-		else if (strcmp(token[0], "exit") == 0)
-			exit_shell();
-
 		else
 		{
-			if (strcmp(token[0], "env") == 0)
+			if (strcmp(token[0], "exit") == 0)
+				exit_shell();
+
+			else if (strcmp(token[0], "env") == 0)
 				env_shell(prompt);
 
 			else if (cmd_check(token[0]) == 0)
@@ -47,6 +47,8 @@ void interactive_shell(char **argv)
 	if (bytes_read == -1)
 		write(1, "\n", 1);
 
+	free(*token);
+	free(token);
 	free(line);
 }
 
@@ -63,7 +65,6 @@ void interactive_shell(char **argv)
 void non_interactive_shell(char **argv)
 {
 	char **token, *line = NULL;
-	int id, status;
 	size_t n;
 	ssize_t bytes_read;
 
@@ -72,31 +73,27 @@ void non_interactive_shell(char **argv)
 		token = split(line, " \"\n");
 
 		if (*token == NULL)
-			exit(-1);
+			exit(0);
 		else
 		{
-			id = fork();
-			if (id == 0)
-			{
+			if (strcmp(token[0], "exit") == 0)
+				exit_shell();
 
-				if (cmd_check(token[0]) == 0)
-				{
-					execute_cmd(argv, token, line, NULL);
-				}
-				else
-				{
-					perror(argv[0]);
-					exit(-1);
-				}
-			}
-			else if (id > 0)
+			else if (strcmp(token[0], "env") == 0)
+				env_shell(NULL);
+
+			else if (cmd_check(token[0]) == 0)
 			{
-				wait(&status);
-				/**
-				 * token = strtok(NULL, "\"\n");
-				 */
+				execute_cmd(argv, token, line, NULL);
+			}
+			else
+			{
+				perror(argv[0]);
+				exit(127);
 			}
 		}
 	}
+	free(token);
+	free(*token);
 	free(line);
 }

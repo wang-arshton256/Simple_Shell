@@ -16,6 +16,7 @@ void interactive_shell(char **argv);
 void non_interactive_shell(char **argv);
 int _strcmp(char *s1, char *s2);
 int _strlen(char *s);
+char *_strdup(char *str);
 char *_strcpy(char *dest, char *src);
 char *_getenv(char *name);
 int path_handler(char **tokens);

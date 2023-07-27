@@ -22,7 +22,7 @@ void execute_cmd(char **argv, char **token, char *line, char *prompt)
 	if (id == 0)
 	{
 		if (*token == NULL)
-			exit(-1);
+			exit(0);
 
 		else if (token[0][0] != '/')
 		{
@@ -30,7 +30,7 @@ void execute_cmd(char **argv, char **token, char *line, char *prompt)
 			{
 				printf("In fork.c\n");
 				perror(argv[0]);
-				exit(-1);
+				exit(127);
 			}
 			exit(0);
 		}
@@ -40,12 +40,13 @@ void execute_cmd(char **argv, char **token, char *line, char *prompt)
 			free(token);
 			free(line);
 			perror(argv[0]);
-			exit(-1);
+			exit(127);
 		}
 	}
 	else if (id > 0)
 	{
 		wait(&status);
-		write(1, prompt, _strlen(prompt));
+		if (prompt != NULL)
+			write(1, prompt, _strlen(prompt));
 	}
 }
