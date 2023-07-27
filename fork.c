@@ -50,3 +50,47 @@ void execute_cmd(char **argv, char **token, char *line, char *prompt)
 			write(1, prompt, _strlen(prompt));
 	}
 }
+
+
+/**
+ * shell_fork - Decides to execute a command or not.
+ *
+ * @argv: Pointer to an array of pointers to strings, represents the
+ * arguments passed to the main function.
+ * @token: Pointer to an array of pointers to strings, represents the array
+ * of splited tokens.
+ * @prompt: Pointer to Character value, represents the message of the prompt.
+ * @line: Pointer to Character value, represents the command line entry of the
+ * user.
+ *
+ * Return: Nothing.
+ */
+
+void shell_fork(char **argv, char **token, char *prompt, char *line)
+{
+	if (*token == NULL)
+		write(1, prompt, _strlen(prompt));
+
+	else
+	{
+		if (strcmp(token[0], "exit") == 0)
+		{
+			free(*token);
+			free(token);
+			free(line);
+			exit_shell();
+		}
+
+		else if (strcmp(token[0], "env") == 0)
+			env_shell(prompt);
+
+		else if (cmd_check(token[0]) == 0)
+			execute_cmd(argv, token, line, prompt);
+
+		else
+		{
+			perror(argv[0]);
+			write(1, prompt, _strlen(prompt));
+		}
+	}
+}

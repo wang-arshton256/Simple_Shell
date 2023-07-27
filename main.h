@@ -27,5 +27,6 @@ int  cmd_check(char *command);
 void exit_handler(int sig_num);
 void exit_shell(void);
 void env_shell(char *prompt);
+void shell_fork(char **argv, char **token, char *prompt, char *line);
 
 #endif
