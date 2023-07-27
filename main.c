@@ -14,10 +14,9 @@
 
 int main(__attribute__((unused)) int argc, char **argv)
 {
-	char *shell_filter = "SHLVL";
-	char *shell_lvl = _getenv(shell_filter);
+	int status = isatty(0);
 
-	if (_strcmp(shell_lvl, "0") == 0)
+	if (status != 1)
 	{
 		non_interactive_shell(argv);
 	}
