@@ -22,33 +22,16 @@ void interactive_shell(char **argv)
 	{
 		token = split(line, " \"\n");
 
-		if (*token == NULL)
-			write(1, prompt, _strlen(prompt));
-
-		else
-		{
-			if (strcmp(token[0], "exit") == 0)
-				exit_shell();
-
-			else if (strcmp(token[0], "env") == 0)
-				env_shell(prompt);
-
-			else if (cmd_check(token[0]) == 0)
-			{
-				execute_cmd(argv, token, line, prompt);
-			}
-			else
-			{
-				perror(argv[0]);
-				write(1, prompt, _strlen(prompt));
-			}
-		}
+		shell_fork(argv, token, prompt, line);
 	}
 	if (bytes_read == -1)
 		write(1, "\n", 1);
 
-	free(*token);
-	free(token);
+	if (token != NULL)
+	{
+		free(*token);
+		free(token);
+	}
 	free(line);
 }
 
@@ -93,7 +76,10 @@ void non_interactive_shell(char **argv)
 			}
 		}
 	}
-	free(token);
-	free(*token);
+	if (token == NULL)
+	{
+		free(token);
+		free(*token);
+	}
 	free(line);
 }

@@ -45,6 +45,8 @@ int path_handler(char **tokens)
 		free(directory);
 		i++;
 	}
+	free(*paths);
+	free(paths);
 	return (-1);
 }
 
@@ -77,15 +79,22 @@ int path_finder(char *command)
 		dir_len = _strlen(paths[i]) + cmd_len;
 		directory = malloc(sizeof(char) * dir_len);
 
+		if (directory == NULL)
+			return (-1);
+
 		_strcpy(directory, paths[i]);
 		directory = _strcat(directory, "/");
 		directory = _strcat(directory, command);
 
 		if (stat(directory, &buff) == 0)
 		{
+			free(directory);
 			return (0);
 		}
+		free(directory);
 		i++;
 	}
+	free(*paths);
+	free(paths);
 	return (-1);
 }

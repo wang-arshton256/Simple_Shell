@@ -17,7 +17,10 @@ char *_getenv(char *name)
 	char *token, *env_var = malloc(sizeof(char) * var_len);
 
 	if (name == NULL)
+	{
+		free(env_var);
 		return (NULL);
+	}
 
 	_strcpy(env_var, name);
 
@@ -28,8 +31,10 @@ char *_getenv(char *name)
 		if (_strcmp(token, env_var) == 0)
 		{
 			token = strtok(NULL, "=");
+			free(env_var);
 			return (&environ[i][var_len]);
 		}
 	}
+	free(env_var);
 	return (NULL);
 }
