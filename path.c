@@ -3,7 +3,7 @@
 /**
  * path_handler - Searches for the right path of the first command given by
  * the user in prompt and executes it (with respect to arguments provided if
- * any) once the command was found.
+ * any) once the command is  found.
  *
  * @tokens: Pointer to an array of pointers to character values, which
  * represents the set of arguments beside the command.
