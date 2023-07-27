@@ -73,7 +73,7 @@ void shell_fork(char **argv, char **token, char *prompt, char *line)
 
 	else
 	{
-		if (strcmp(token[0], "exit") == 0)
+		if (_strcmp(token[0], "exit") == 0)
 		{
 			free(*token);
 			free(token);
@@ -81,7 +81,7 @@ void shell_fork(char **argv, char **token, char *prompt, char *line)
 			exit_shell();
 		}
 
-		else if (strcmp(token[0], "env") == 0)
+		else if (_strcmp(token[0], "env") == 0)
 			env_shell(prompt);
 
 		else if (cmd_check(token[0]) == 0)
