@@ -55,6 +55,15 @@ void execute_cmd(char **argv, char **token, char *line, char *prompt)
 /**
  * shell_fork - Decides to execute a command or not.
  *
+ * @argv: Pointer to an array of pointers to strings, represents the
+ * arguments passed to the main function.
+ * @token: Pointer to an array of pointers to strings, represents the array
+ * of splited tokens.
+ * @prompt: Pointer to Character value, represents the message of the prompt.
+ * @line: Pointer to Character value, represents the command line entry of the
+ * user.
+ *
+ * Return: Nothing.
  */
 
 void shell_fork(char **argv, char **token, char *prompt, char *line)
