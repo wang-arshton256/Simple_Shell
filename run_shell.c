@@ -59,10 +59,10 @@ void non_interactive_shell(char **argv)
 			exit(0);
 		else
 		{
-			if (strcmp(token[0], "exit") == 0)
+			if (_strcmp(token[0], "exit") == 0)
 				exit_shell();
 
-			else if (strcmp(token[0], "env") == 0)
+			else if (_strcmp(token[0], "env") == 0)
 				env_shell(NULL);
 
 			else if (cmd_check(token[0]) == 0)
